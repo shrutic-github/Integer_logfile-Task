@@ -1,56 +1,54 @@
-# Integer_logfile-Task
-1. Log File Analysis
-Identifying Patterns
-The log file contains multiple sections of structured data enclosed within START and END markers.
-Each table starts with a marker in the format:   MAL03377:<TABLE NAME> START
-and ends with: MAL03377:<TABLE NAME> END
-Column headers are present at the beginning of the extracted data for most tables, separated by ; or spaces.
-
-Identified Tables
-The following structured tables were identified:
+1. Analyzing the Log File
+Goal: Identify patterns and table structures in the log file.
+Process:
+Opened and reviewed the log file.
+Located START and END markers that define the boundaries of each table.
+Identified six tables with the following names:
 ALARM STATUS
-Start Marker: MAL03377:ALARM STATUS START
-End Marker: MAL03377:ALARM STATUS END
-Columns: Date_Time, Severity, Object, Problem
-
 AVG PRB BRANCH RSSI
-Start Marker: MAL03377:AVG PRB BRANCH RSSI START
-End Marker: MAL03377:AVG PRB BRANCH RSSI END
-Columns: Cell, SECTOR_X_Branch_Y, AVG_ULRSSI, PRBGroup1-10, ..., PRBGrp90-
-
 AVG PER BRANCH RSSI
-Start Marker: MAL03377:AVG PER BRANCH RSSI START
-End Marker: MAL03377:AVG PER BRANCH RSSI END
-Columns: CELL, SC, FRU, BOARD, PUSCH, PUCCH, A, B, C, D, DELTA
-
 RFBRANCH STATUS
-Start Marker: MAL03377:RFBRANCH STATUS START
-End Marker: MAL03377:RFBRANCH STATUS END
-Columns: MO, auPortRef, dlAttenuation, dlTrafficDelay, reservedBy, rfPortRef, tmaRef, ulAttenuation, ulTrafficDelay
-
 BASIC DETAIL
-
-Start Marker: MAL03377:BASIC DETAIL START
-End Marker: MAL03377:BASIC DETAIL END
-Columns: Proxy, Adm State, Op. State, MO
-
 HARDWARE INVENTORY
-Start Marker: MAL03377:HARDWARE INVENTORY START
-End Marker: MAL03377:HARDWARE INVENTORY END
-Contains information about hardware components and connectivity.
+Each table has rows separated by semicolons (;), which act as column separators.
+2. Writing ChatGPT Prompts
+Goal: Use ChatGPT to refine and improve data extraction.
+Prompts Used:
+“Identify all START and END markers in the log file and extract data in between.”
+“Split the extracted data using ‘;’ as a separator to create a structured table.”
+“Format extracted tables properly and prepare for conversion to Excel.”
+Refinement: Modified prompts to handle cases where data rows had inconsistent spacing or unexpected patterns.
+3. Extracting Data and Saving to Excel
+Goal: Extract and organize table data in an Excel file.
+Process:
+Used Python to:
+Open and read the log file.
+Identify and extract data between START and END markers.
+Split rows using ; as a delimiter to create structured data.
+Save each table in a separate Excel sheet.
+Saved data in Extracted_table_data.xlsx.
+4. Documenting the Process
+Goal: Explain how extraction was performed.
+Steps:
+Log File Analysis: Found table patterns using START and END markers.
+Pattern Matching: Applied regex to identify and extract the desired table data.
+Data Splitting: Separated data using semicolons (;) to form clean tables.
+Excel Writing: Wrote data to separate sheets in an Excel file.
+📂 Project Structure
+bash
+CopyEdit
+📁 your-github-repo
+│── 📄 HC_Log_2025-02-24_21-19-14.txt  # Provided log file
+│── 📄 Extracted_table_data.xlsx       # Extracted tables in Excel
+│── 📄 README.md                       # Documentation (this file)
+│── 📄 extraction_script.py            # Python script for extraction
+🚀 How to Run
+Clone the repository:
 
-2. Data Extraction Process
+git clone https://github.com/your-username/your-github-repo.git
+Install required libraries:
 
-Approach Used
-Read the log file: Open the file and read all lines into memory.
-Identify table sections: Extract data only between defined START and END markers.
-Ignore empty tables: If no data is found between markers, that table is skipped.
-Format extracted data: Convert extracted lines into structured table format.
-Save to Excel: Store data in separate sheets for each table, ensuring proper formatting.
-
-Extraction Logic in Python
-Read the log file.
-Loop through each line, detecting START and END markers.
-Store the data within markers in a dictionary.
-Convert data into pandas DataFrame and save as an Excel file with proper column formatting.
-Use xlsxwriter to wrap text for better readability.
+pip install pandas xlsxwriter
+Run the script:
+python extraction_script.py
+Open the generated Extracted_table_data.xlsx to review the extracted tables.
